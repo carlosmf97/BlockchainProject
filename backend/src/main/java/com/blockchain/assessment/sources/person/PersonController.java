@@ -6,7 +6,11 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
+
+import jakarta.persistence.Id;
 
 
 @RestController
@@ -25,15 +29,23 @@ public class PersonController {
 		}
 	
 	
-	@GetMapping("/person/{email}/{name}")
+	@SuppressWarnings("rawtypes")
+	@GetMapping("/person/{id}/{name}")
 	public Person getPerson(@PathVariable String id, @PathVariable String name){
-		if(repository.findById(id) != null) {
+		System.out.println(repository.findById("carlos.munoz@solera.com"));
+		if((Optional) repository.findById(id) != Optional.empty()) {
 			Optional<Person> person = repository.findById(id);
-			if(person.get().getAnswers() == null) {
-				return person.get();
-			}
-			return null;
+			return person.get();
 		}
-		return new Person(id, name, null); 
+		return null; 
+	}
+	
+	@GetMapping("/person/{id}/{name}/save")
+	public Boolean saveNewPerson(@PathVariable String id, @PathVariable String name) {
+		if(this.getPerson(id, name) == null) {
+			repository.save(new Person(name, id, null));
+			return true;
+		}
+		return false;
 	}
 }
