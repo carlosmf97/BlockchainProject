@@ -1,7 +1,9 @@
 package com.blockchain.assessment.sources.questionaire;
 
+import java.util.List;
 import java.util.Optional;
 
+import org.aspectj.weaver.patterns.TypePatternQuestions.Question;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -17,6 +19,11 @@ public class QuestionaireController {
 	
 	public QuestionaireController(QuestionaireRepository repository){
 		this.repository = repository;
+	}
+	
+	@GetMapping("/question/all")
+	public List<Questionaire> getAllQuestions() {
+		return repository.findAll();
 	}
 	
 	@GetMapping("/question/{id}")
