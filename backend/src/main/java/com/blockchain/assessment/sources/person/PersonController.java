@@ -32,7 +32,6 @@ public class PersonController {
 	@SuppressWarnings("rawtypes")
 	@GetMapping("/person/{id}/{name}")
 	public Person getPerson(@PathVariable String id, @PathVariable String name){
-		System.out.println(repository.findById("carlos.munoz@solera.com"));
 		if((Optional) repository.findById(id) != Optional.empty()) {
 			Optional<Person> person = repository.findById(id);
 			return person.get();
@@ -44,6 +43,15 @@ public class PersonController {
 	public Boolean saveNewPerson(@PathVariable String id, @PathVariable String name) {
 		if(this.getPerson(id, name) == null) {
 			repository.save(new Person(name, id, null));
+			return true;
+		}
+		return false;
+	}
+	
+	@PostMapping("/person/save")
+	public Boolean savePerson(@RequestBody Person person) {
+		if(this.getPerson(person.getEmail(), person.getName()) == null) {
+			repository.save(person);
 			return true;
 		}
 		return false;
