@@ -45,7 +45,7 @@ public class Person {
 		return answers;
 	}
 
-	public void setAffinity(List<String> answers) {
+	public void setAnswers(List<String> answers) {
 		this.answers = answers;
 	}
 	

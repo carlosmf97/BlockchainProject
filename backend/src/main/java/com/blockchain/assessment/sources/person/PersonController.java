@@ -1,5 +1,6 @@
 package com.blockchain.assessment.sources.person;
 
+import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 
@@ -55,5 +56,16 @@ public class PersonController {
 			return true;
 		}
 		return false;
+	}
+	
+	@PostMapping("/person/{id}/saveanswers")
+	public Boolean saveAnswers(@RequestBody String[] answers, @PathVariable String id) {
+		Optional<Person> p = repository.findById(id);
+		p.get().setAnswers(Arrays.asList(answers));
+		System.out.println(p.get().getAnswers());
+		if (repository.save(p.get()) != null) {
+			return true;
+		}
+		else return false;
 	}
 }
